@@ -21,14 +21,19 @@ test_data = """2-4,6-8
 data = [t.split(",") for t in puzzle_input]
 
 
-def check_for_overlap(elf_a: str, elf_b: str) -> bool:
+def check_for_overlap(elf_a: str, elf_b: str, complete: bool = True) -> bool:
     elf_a_start, elf_a_end = map(int, elf_a.split("-"))
     elf_b_start, elf_b_end = map(int, elf_b.split("-"))
 
     elf_a_range = set(range(elf_a_start, elf_a_end + 1))
     elf_b_range = set(range(elf_b_start, elf_b_end + 1))
 
-    if all(a in elf_b_range for a in elf_a_range) or all(
+    if complete:
+        f = all
+    else:
+        f = any
+
+    if f(a in elf_b_range for a in elf_a_range) or f(
         b in elf_a_range for b in elf_b_range
     ):
         return True
@@ -39,7 +44,14 @@ for elf_a, elf_b in data:
     if check_for_overlap(elf_a, elf_b):
         overlaps += 1
 
-print(f"Part 1: {overlaps} ranges overlap")
+print(f"Part 1: {overlaps} ranges overlap completely")
+
+overlaps = 0
+for elf_a, elf_b in data:
+    if check_for_overlap(elf_a, elf_b, False):
+        overlaps += 1
+
+print(f"Part 2: {overlaps} ranges overlap at all")
 
 
 end_time = timeit.default_timer()
