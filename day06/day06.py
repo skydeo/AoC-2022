@@ -43,6 +43,10 @@ sop_marker_idx = find_sop_marker_idx(puzzle_input)
 
 print(f"Part 1: {sop_marker_idx}")
 
+sop_message_idx = find_sop_marker_idx(puzzle_input, 14)
+
+print(f"Part 2: {sop_message_idx}")
+
 
 end_time = timeit.default_timer()
 print(f"Completed in {round(timeit.default_timer()-start_time, 4)}s.")
