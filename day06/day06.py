@@ -23,14 +23,14 @@ test_input_answers = [7, 5, 6, 10, 11]
 
 
 def check_tests(test_input, test_input_answers) -> str:
-    results = [find_sop_marker_idx(test) for test in test_input]
+    results = [find_sop_idx(test) for test in test_input]
     for a, b in zip(results, test_input_answers):
         if a != b:
             return f"Test failed. {a} != {b}."
     return "All tests passed."
 
 
-def find_sop_marker_idx(datastream: str, packet_size: int = 4) -> int:
+def find_sop_idx(datastream: str, packet_size: int = 4) -> int:
     for idx, _ in enumerate(datastream[: -(packet_size - 1)]):
         packet = datastream[idx : idx + packet_size]
         if len(set(packet)) == packet_size:
@@ -39,11 +39,11 @@ def find_sop_marker_idx(datastream: str, packet_size: int = 4) -> int:
 
 
 # print(check_tests(test_input, test_input_answers))
-sop_marker_idx = find_sop_marker_idx(puzzle_input)
+sop_marker_idx = find_sop_idx(puzzle_input)
 
 print(f"Part 1: {sop_marker_idx}")
 
-sop_message_idx = find_sop_marker_idx(puzzle_input, 14)
+sop_message_idx = find_sop_idx(puzzle_input, 14)
 
 print(f"Part 2: {sop_message_idx}")
 
