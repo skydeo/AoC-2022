@@ -31,8 +31,6 @@ move 2 from 2 to 1
 move 1 from 1 to 2
 """.splitlines()
 
-# print(test_input)
-
 
 def split_instructions(puzzle_input: list[str]) -> tuple[list[str], list[str]]:
     sep = 0
@@ -94,6 +92,29 @@ for instruction in instructions:
 top_crates = find_top_crates(stacks)
 
 print(f"Part 1: {top_crates}")
+
+
+def apply_instruction_9001(
+    instruction: Instruction, stacks: list[deque]
+) -> list[deque]:
+    cratemover_9001 = []
+    for _ in range(instruction.num):
+        cratemover_9001.append(stacks[instruction.start].pop())
+
+    for crate in cratemover_9001[::-1]:
+        stacks[instruction.end].append(crate)
+
+    return stacks
+
+
+layout, instructions = split_instructions(puzzle_input)
+instructions = process_instructions(instructions)
+stacks = layout_to_stacks(layout)
+for instruction in instructions:
+    stacks = apply_instruction_9001(instruction, stacks)
+top_crates = find_top_crates(stacks)
+
+print(f"Part 2: {top_crates}")
 
 
 end_time = timeit.default_timer()
